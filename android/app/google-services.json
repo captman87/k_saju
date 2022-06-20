@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "134045567895",
+    "project_id": "k-saju-sk3",
+    "storage_bucket": "k-saju-sk3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134045567895:android:879ab14cfb42a8f7e712d2",
+        "android_client_info": {
+          "package_name": "com.visual_k.k_saju"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134045567895-tv2pf2r31bo7hnu25f2t0riareu26554.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp15f-ZQZXIui1bjp1-xhxI4qC91jtr8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134045567895-tv2pf2r31bo7hnu25f2t0riareu26554.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
