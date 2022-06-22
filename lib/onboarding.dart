@@ -28,7 +28,7 @@ class OnBoardingPage extends StatelessWidget {
                 '사주 - 일,월,연의 운세는 어떠한지\n궁합 - 연인끼리 잘맞는지\n해몽 - 꿈이 무슨 의미인지\n\n\n\n\nDone을 누르고 정보등록 후 시작!',
             image: Page2_Image()),
       ],
-      done: CustomText('Done', 15.sp, Colors.black, TextAlign.center),
+      done: CustomText('Done', 12.sp, Colors.black, TextAlign.center),
       onDone: () {
         selectedGender = Gender.Male;
         Get.bottomSheet(AddUserControlPanel(), backgroundColor: bodyColor);
