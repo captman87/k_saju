@@ -1,11 +1,13 @@
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, must_be_immutable
 
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ksaju/test.dart';
+import '3subPage.dart';
 import 'custom_icon.dart';
 import 'onboarding.dart';
 import 'package:sizer/sizer.dart';
@@ -118,26 +120,13 @@ class Home extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             controller: _tabx.controller,
             children: [
-              Container(color: bodyColor),
-              Container(color: bodyColor),
-              Container(color: bodyColor),
               Container(
-                color: bodyColor,
-                child: ListView.builder(
-                  shrinkWrap: false,
-                  itemCount: 4,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      child: Card(
-                        child: ListTile(
-                          title: Text('사주 운세 구독 서비스'),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                color: Colors.white,
+                child: LineChartSample5(),
               ),
+              Container(color: bodyColor),
+              Container(color: bodyColor),
+              SubPage_Container(),
             ],
           ),
           bottomNavigationBar: ConvexAppBar(
