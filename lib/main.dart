@@ -73,7 +73,6 @@ Future<void> main() async {
     dataSnapshot = await ref.get();
     print(dataSnapshot?.value);
     dream_json = jsonDecode(jsonEncode(dataSnapshot?.value));
-    dreamDB = DreamDBList.fromJson(dream_json!);
   } else {
     print('2');
     dream_json = GetStorage().read('DREAM_DB');
@@ -166,7 +165,7 @@ class Home extends StatelessWidget {
               ),
               Container(color: bodyColor),
               DreamPage(),
-              SubPage(),
+              SubPage_Container(),
             ],
           ),
           bottomNavigationBar: ConvexAppBar(
