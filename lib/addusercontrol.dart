@@ -150,7 +150,7 @@ class AddUserControlPanel extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                           minimumSize: Size(
                               MediaQuery.of(context).size.width * 0.15,
                               MediaQuery.of(context).size.height * 0.2)),
@@ -201,7 +201,7 @@ class AddUserControlPanel extends StatelessWidget {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                           minimumSize: Size(
                               MediaQuery.of(context).size.width * 0.15,
                               MediaQuery.of(context).size.height * 0.2)),

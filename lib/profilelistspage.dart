@@ -3,11 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 import 'addusercontrol.dart';
 import 'main.dart';
-
-RxInt selectedIndex = 0.obs;
 
 class ProfileListsPage extends StatelessWidget {
   ProfileListsPage({super.key});
@@ -37,6 +36,8 @@ class ProfileListsPage extends StatelessWidget {
                                 onTap: () {
                                   _selectedIndexControl
                                       .selectedIndexController(index);
+                                  GetStorage().write(
+                                      'SelectedIndex', selectedIndex.value);
                                 },
                                 selected: index == selectedIndex.value,
                                 tileColor: Colors.grey,
@@ -131,7 +132,7 @@ IconButton IndexIconButton(BuildContext context, int index) {
               userDataController.dismissUserData(index);
               return Navigator.of(context).pop(true);
             },
-            style: ElevatedButton.styleFrom(primary: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             child: CustomText('DELETE', 12.sp, Colors.black, TextAlign.center),
           ),
         ],

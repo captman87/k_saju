@@ -1,8 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:convert';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'addusercontrol.dart';
@@ -30,6 +34,7 @@ class OnBoardingPage extends StatelessWidget {
       ],
       done: CustomText('Done', 12.sp, Colors.black, TextAlign.center),
       onDone: () {
+        GetStorage().write('DREAM_DB', dataSnapshot?.value);
         selectedGender = Gender.Male;
         Get.bottomSheet(AddUserControlPanel(), backgroundColor: bodyColor);
       },

@@ -1,46 +1,85 @@
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, must_be_immutable
+import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
+import '2DreamPage.dart';
+import '3SubPage.dart';
 import 'custom_icon.dart';
+import 'google_sign_in.dart';
+import 'graphControl.dart';
 import 'onboarding.dart';
 import 'package:sizer/sizer.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'profilelists.dart';
+import 'profilelistspage.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 final userDataController = Get.put(UserData());
 bool? isOnboarding;
 var data;
+DataSnapshot? dataSnapshot;
+List<dynamic>? dream_json;
+DreamDBList? dreamDB;
 const Color headColor = Color.fromARGB(255, 20, 100, 70);
 const Color bodyColor = Color.fromARGB(255, 25, 25, 25);
 const Color circleColor = Color.fromARGB(255, 25, 25, 25);
+RxInt selectedIndex = 0.obs;
 
 void initialization() async {
-  print('ready in 3...');
-  await Future.delayed(const Duration(seconds: 1));
-  print('ready in 2...');
-  await Future.delayed(const Duration(seconds: 1));
-  print('ready in 1...');
-  await Future.delayed(const Duration(seconds: 1));
-  print('go!');
+  try {
+    await AuthRepo.signInWithGoogle().then((value) {
+      Get.snackbar('title', 'Welcome: ${value.user?.displayName ?? ""}');
+    });
+  } catch (e) {
+    Get.snackbar('title', 'Error: $e');
+  }
+  GetStorage().write('DREAM_DB', dataSnapshot?.value);
   FlutterNativeSplash.remove();
 }
 
-void main() async {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   await GetStorage.init();
   data = GetStorage().read('USER_DATA');
-  GetStorage().read('isOnboarding') == null
+  await GetStorage().read('isOnboarding') == null
       ? isOnboarding = true
       : isOnboarding = false;
   data == null ? null : userDataController.userData = RxList.from(data);
+  await GetStorage().read('SelectedIndex') == null
+      ? selectedIndex.value = 0
+      : selectedIndex.value = GetStorage().read('SelectedIndex');
+  await Firebase.initializeApp(
+    name: 'K Saju',
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyCp15f-ZQZXIui1bjp1-xhxI4qC91jtr8o',
+      appId: '1:134045567895:android:879ab14cfb42a8f7e712d2',
+      projectId: 'k-saju-sk3',
+      messagingSenderId: '134045567895',
+      authDomain: 'k-saju-sk3.firebaseapp.com',
+      databaseURL: 'https://k-saju-sk3-default-rtdb.firebaseio.com/',
+    ),
+  );
+  if (!GetStorage().hasData('DREAM_DB')) {
+    print('1');
+    final ref = FirebaseDatabase.instance.ref();
+    dataSnapshot = await ref.get();
+    print(dataSnapshot?.value);
+    dream_json = jsonDecode(jsonEncode(dataSnapshot?.value));
+    dreamDB = DreamDBList.fromJson(dream_json!);
+  } else {
+    print('2');
+    dream_json = GetStorage().read('DREAM_DB');
+    dreamDB = DreamDBList.fromJson(dream_json!);
+  }
+
   runApp(const Ksaju());
 }
 
@@ -118,26 +157,16 @@ class Home extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             controller: _tabx.controller,
             children: [
-              Container(color: bodyColor),
-              Container(color: bodyColor),
-              Container(color: bodyColor),
               Container(
-                color: bodyColor,
-                child: ListView.builder(
-                  shrinkWrap: false,
-                  itemCount: 4,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      child: Card(
-                        child: ListTile(
-                          title: Text('사주 운세 구독 서비스'),
-                        ),
-                      ),
-                    );
-                  },
+                color: Colors.white,
+                child: SizedBox(
+                  child: LineChartSample5(),
+                  height: 10,
                 ),
               ),
+              Container(color: bodyColor),
+              DreamPage(),
+              SubPage(),
             ],
           ),
           bottomNavigationBar: ConvexAppBar(
@@ -266,4 +295,42 @@ Text CustomText(
         fontFamily: 'CustomFont',
         fontWeight: FontWeight.bold),
   );
+}
+
+class DreamDBList {
+  List<DreamDB> dreamDBlist;
+
+  DreamDBList({
+    required this.dreamDBlist,
+  });
+
+  factory DreamDBList.fromJson(List<dynamic> parsedJson) {
+    List<DreamDB> dreamDB = <DreamDB>[];
+    dreamDB =
+        parsedJson.map((parsedJson) => DreamDB.fromJson(parsedJson)).toList();
+
+    return DreamDBList(dreamDBlist: dreamDB);
+  }
+}
+
+class DreamDB {
+  String title_ko;
+  String title_en;
+  String desc_ko;
+  String desc_en;
+
+  DreamDB({
+    required this.title_ko,
+    required this.title_en,
+    required this.desc_ko,
+    required this.desc_en,
+  });
+
+  factory DreamDB.fromJson(Map<String, dynamic> json) {
+    return DreamDB(
+        title_ko: json['title_ko'],
+        title_en: json['title_en'],
+        desc_ko: json['desc_ko'],
+        desc_en: json['desc_en']);
+  }
 }
