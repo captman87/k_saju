@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, must_be_immutable
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -12,7 +13,7 @@ import '2DreamPage.dart';
 import '3SubPage.dart';
 import 'custom_icon.dart';
 import 'google_sign_in.dart';
-import 'graphControl.dart';
+import 'dailylinechart_control.dart';
 import 'onboarding.dart';
 import 'package:sizer/sizer.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -26,7 +27,7 @@ DataSnapshot? dataSnapshot;
 List<dynamic>? dream_json;
 DreamDBList? dreamDB;
 const Color headColor = Color.fromARGB(255, 20, 100, 70);
-const Color bodyColor = Color.fromARGB(255, 25, 25, 25);
+const Color bodyColor = Color(0xff232d37);
 const Color circleColor = Color.fromARGB(255, 25, 25, 25);
 RxInt selectedIndex = 0.obs;
 
@@ -36,8 +37,10 @@ void initialization() async {
       Get.snackbar('title', 'Welcome: ${value.user?.displayName ?? ""}');
     });
   } catch (e) {
-    Get.snackbar('title', 'Error: $e');
+    // exit(0);
+    // Get.snackbar('title', 'Error: $e');
   }
+
   GetStorage().write('DREAM_DB', dataSnapshot?.value);
   FlutterNativeSplash.remove();
 }
@@ -68,13 +71,11 @@ Future<void> main() async {
     ),
   );
   if (!GetStorage().hasData('DREAM_DB')) {
-    print('1');
     final ref = FirebaseDatabase.instance.ref();
     dataSnapshot = await ref.get();
     dream_json = jsonDecode(jsonEncode(dataSnapshot?.value));
     dreamDB = DreamDBList.fromJson(dream_json!);
   } else {
-    print('2');
     dream_json = GetStorage().read('DREAM_DB');
     dreamDB = DreamDBList.fromJson(dream_json!);
   }
@@ -157,11 +158,8 @@ class Home extends StatelessWidget {
             controller: _tabx.controller,
             children: [
               Container(
-                color: Colors.white,
-                child: SizedBox(
-                  child: LineChartSample5(),
-                  height: 10,
-                ),
+                color: bodyColor,
+                child: DailyLineChart(),
               ),
               Container(color: bodyColor),
               DreamPage(),
