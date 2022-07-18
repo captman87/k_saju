@@ -49,6 +49,8 @@ dependencies:
   firebase_database: ^9.0.18
   google_sign_in: ^5.4.0
   dropdown_search: ^5.0.2
+  firebase_storage: ^10.3.2
+  cloud_firestore: ^3.3.0
 
 dev_dependencies:
   flutter_test:

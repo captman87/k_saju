@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
@@ -34,7 +33,9 @@ class OnBoardingPage extends StatelessWidget {
       ],
       done: CustomText('Done', 12.sp, Colors.black, TextAlign.center),
       onDone: () {
-        GetStorage().write('DREAM_DB', dataSnapshot?.value);
+        if (dreamDB.isNotEmpty) {
+          GetStorage().write('DREAM_DB', DreamDB.encode(dreamDB));
+        }
         selectedGender = Gender.Male;
         Get.bottomSheet(AddUserControlPanel(), backgroundColor: bodyColor);
       },

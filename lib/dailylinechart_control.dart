@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -17,7 +19,7 @@ class DailyLineChart extends StatelessWidget {
         AspectRatio(
           aspectRatio: 1.70,
           child: Container(
-            color: Color(0xff232d37),
+            color: const Color(0xff232d37),
             child: Padding(
               padding: const EdgeInsets.only(
                   right: 25, left: 25, top: 50, bottom: 10),

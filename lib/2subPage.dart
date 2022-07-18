@@ -51,7 +51,7 @@ Row Row_SubButton() {
             onPressed: (() {}),
             style: ElevatedButton.styleFrom(
                 elevation: 10,
-                primary: Colors.orangeAccent,
+                backgroundColor: Colors.orangeAccent,
                 shape: const CircleBorder(),
                 fixedSize: Size.fromRadius(15.w)),
             child: CustomText(
@@ -67,7 +67,7 @@ Row Row_SubButton() {
         onPressed: (() {}),
         style: ElevatedButton.styleFrom(
             elevation: 10,
-            primary: const Color.fromARGB(255, 248, 109, 109),
+            backgroundColor: const Color.fromARGB(255, 248, 109, 109),
             shape: const CircleBorder(),
             fixedSize: Size.fromRadius(15.w)),
         child: CustomText(
@@ -86,7 +86,7 @@ Row Row_SubButton() {
             onPressed: (() {}),
             style: ElevatedButton.styleFrom(
                 elevation: 10,
-                primary: const Color.fromARGB(255, 127, 255, 87),
+                backgroundColor: const Color.fromARGB(255, 127, 255, 87),
                 shape: const CircleBorder(),
                 fixedSize: Size.fromRadius(15.w)),
             child: CustomText(
